@@ -1,0 +1,21 @@
+# Godot 4+
+.import/
+.export/
+.export_presets.cfg
+# Keep export_presets.cfg out if you don't want to share export settings
+# Remove the line above if you DO want to share it.
+
+# Mono / C# (only if you use it)
+.mono/
+obj/
+bin/
+
+# IDE/editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Godot generated
+.godot/
