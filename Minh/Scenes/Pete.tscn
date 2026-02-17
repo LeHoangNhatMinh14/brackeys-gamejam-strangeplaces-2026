@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://b3j5iyf0fj76p"]
+
+[ext_resource type="Texture2D" uid="uid://b1f86bx43rll2" path="res://Minh/kenney_platformer-characters/PNG/Player/player_tilesheet.png" id="1_xn1xs"]
+[ext_resource type="Texture2D" uid="uid://bcup85p7a4tk2" path="res://Minh/kenney_new-platformer-pack-1.1/Vector/Tiles/bomb.svg" id="4_5nqbg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0yhsw"]
+atlas = ExtResource("1_xn1xs")
+region = Rect2(0, 0, 80, 110)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_eqnoq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0yhsw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xn1xs"]
+size = Vector2(13.5, 16.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0yhsw"]
+
+[node name="Player" type="CharacterBody2D" unique_id=1276678949]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=449345976]
+position = Vector2(0, -19.000002)
+scale = Vector2(0.375, 0.29090908)
+sprite_frames = SubResource("SpriteFrames_eqnoq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1327650036]
+position = Vector2(0, -11)
+shape = SubResource("RectangleShape2D_xn1xs")
+
+[node name="PAWG Companion" type="Node2D" parent="." unique_id=146195121]
+position = Vector2(-17, -30)
+
+[node name="PDwag" type="Node2D" parent="PAWG Companion" unique_id=1037402282]
+
+[node name="Visual" type="Node2D" parent="PAWG Companion/PDwag" unique_id=1786454288]
+
+[node name="Head" type="Sprite2D" parent="PAWG Companion/PDwag/Visual" unique_id=852297348]
+position = Vector2(-2, 1)
+scale = Vector2(0.203125, 0.203125)
+texture = ExtResource("4_5nqbg")
+
+[node name="Body" type="NinePatchRect" parent="PAWG Companion/PDwag/Visual" unique_id=2041870798]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Tail" type="Sprite2D" parent="PAWG Companion/PDwag/Visual" unique_id=447148354]
+
+[node name="PlatformArea" type="StaticBody2D" parent="PAWG Companion/PDwag" unique_id=155979270]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PAWG Companion/PDwag/PlatformArea" unique_id=649156988]
+shape = SubResource("RectangleShape2D_0yhsw")
