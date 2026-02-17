@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://ddo2kerqhahxr"]
+
+[ext_resource type="PackedScene" uid="uid://bsyrhqns7mgct" path="res://QwertyFolder/player.tscn" id="1_64gy8"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_64gy8"]
+
+[node name="Game" type="Node2D" unique_id=270059936]
+
+[node name="CharacterBody2D" parent="." unique_id=777745129 instance=ExtResource("1_64gy8")]
+position = Vector2(1, -50)
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D" unique_id=1214707268]
+position = Vector2(-1, -33)
+position_smoothing_enabled = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1981248202]
+position = Vector2(0, 150)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=21842697]
+shape = SubResource("WorldBoundaryShape2D_64gy8")
