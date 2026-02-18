@@ -4,7 +4,7 @@ extends CharacterBody2D
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 
-const faceOffset = 12.5
+const faceOffset = 13
 
 @onready var bodySprite: AnimatedSprite2D = $Body
 @onready var faceSprite: AnimatedSprite2D = $Face
