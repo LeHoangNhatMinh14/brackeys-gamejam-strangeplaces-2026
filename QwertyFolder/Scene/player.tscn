@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bsyrhqns7mgct"]
 
-[ext_resource type="Script" uid="uid://6nb21ji186v6" path="res://QwertyFolder/player.gd" id="1_ige0b"]
+[ext_resource type="Script" uid="uid://6nb21ji186v6" path="res://QwertyFolder/Scene/player.gd" id="1_ige0b"]
 [ext_resource type="Texture2D" uid="uid://bk7xvum5yawcn" path="res://QwertyFolder/Assets/PlayerIdleSprite.png" id="2_6wjp4"]
 [ext_resource type="Texture2D" uid="uid://vcnqui3dmfu0" path="res://QwertyFolder/Assets/PlayerRunSprite.png" id="3_o67hd"]
 [ext_resource type="Texture2D" uid="uid://rle4adfepu1h" path="res://QwertyFolder/Assets/PlayerFaceIdle.png" id="4_o67hd"]

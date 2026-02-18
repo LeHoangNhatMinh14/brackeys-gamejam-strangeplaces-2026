@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ddo2kerqhahxr"]
 
-[ext_resource type="PackedScene" uid="uid://bsyrhqns7mgct" path="res://QwertyFolder/player.tscn" id="1_64gy8"]
+[ext_resource type="PackedScene" uid="uid://bsyrhqns7mgct" path="res://QwertyFolder/Scene/player.tscn" id="1_64gy8"]
 [ext_resource type="PackedScene" uid="uid://b25erkf80a1a8" path="res://QwertyFolder/Scene/dog.tscn" id="2_ht7qh"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_64gy8"]
