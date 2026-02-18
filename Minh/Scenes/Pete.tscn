@@ -1,19 +1,41 @@
 [gd_scene format=3 uid="uid://b3j5iyf0fj76p"]
 
-[ext_resource type="Texture2D" uid="uid://b1f86bx43rll2" path="res://Minh/kenney_platformer-characters/PNG/Player/player_tilesheet.png" id="1_xn1xs"]
+[ext_resource type="Texture2D" uid="uid://bk7xvum5yawcn" path="res://QwertyFolder/Assets/PlayerIdleSprite.png" id="1_bf5j5"]
 [ext_resource type="Script" uid="uid://ccgowe5x8lfbp" path="res://Minh/scripts/pawg_companion.gd" id="2_bf5j5"]
 [ext_resource type="Script" uid="uid://x43687jv3lk6" path="res://Minh/scripts/p_dwag.gd" id="2_vk7pb"]
 [ext_resource type="Texture2D" uid="uid://bcup85p7a4tk2" path="res://Minh/kenney_new-platformer-pack-1.1/Vector/Tiles/bomb.svg" id="4_5nqbg"]
+[ext_resource type="Texture2D" uid="uid://brvx0wxb2g432" path="res://QwertyFolder/Assets/body.png" id="5_jxw7w"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0yhsw"]
-atlas = ExtResource("1_xn1xs")
-region = Rect2(0, 0, 80, 110)
+[sub_resource type="AtlasTexture" id="AtlasTexture_jxw7w"]
+atlas = ExtResource("1_bf5j5")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dk7fv"]
+atlas = ExtResource("1_bf5j5")
+region = Rect2(100, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j4b08"]
+atlas = ExtResource("1_bf5j5")
+region = Rect2(0, 100, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o1lmd"]
+atlas = ExtResource("1_bf5j5")
+region = Rect2(100, 100, 100, 100)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_eqnoq"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0yhsw")
+"texture": SubResource("AtlasTexture_jxw7w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dk7fv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j4b08")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o1lmd")
 }],
 "loop": true,
 "name": &"default",
@@ -21,7 +43,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xn1xs"]
-size = Vector2(13.5, 16.5)
+size = Vector2(10.75, 27)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bf5j5"]
 
@@ -33,7 +55,7 @@ scale = Vector2(0.375, 0.29090908)
 sprite_frames = SubResource("SpriteFrames_eqnoq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1327650036]
-position = Vector2(0, -11)
+position = Vector2(1, -17)
 shape = SubResource("RectangleShape2D_xn1xs")
 
 [node name="PDawg Companion" type="Node2D" parent="." unique_id=146195121]
@@ -42,6 +64,7 @@ script = ExtResource("2_bf5j5")
 dog_path = NodePath("PDawg")
 
 [node name="PDawg" type="Node2D" parent="PDawg Companion" unique_id=2007595443]
+position = Vector2(-4, 19)
 script = ExtResource("2_vk7pb")
 
 [node name="Visual" type="Node2D" parent="PDawg Companion/PDawg" unique_id=704664947]
@@ -51,10 +74,10 @@ position = Vector2(-2, 1)
 scale = Vector2(0.203125, 0.203125)
 texture = ExtResource("4_5nqbg")
 
-[node name="Body" type="NinePatchRect" parent="PDawg Companion/PDawg/Visual" unique_id=180307648]
-offset_right = 40.0
-offset_bottom = 40.0
-metadata/_edit_use_anchors_ = true
+[node name="Body" type="Sprite2D" parent="PDawg Companion/PDawg/Visual" unique_id=1796270885]
+z_index = -2
+position = Vector2(-76, -61)
+texture = ExtResource("5_jxw7w")
 
 [node name="Tail" type="Sprite2D" parent="PDawg Companion/PDawg/Visual" unique_id=1178272271]
 
