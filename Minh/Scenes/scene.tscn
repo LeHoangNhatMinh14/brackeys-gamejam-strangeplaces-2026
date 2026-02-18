@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://byflbatsmk2uk"]
+
+[ext_resource type="PackedScene" uid="uid://b3j5iyf0fj76p" path="res://Minh/Scenes/Pete.tscn" id="1_gjdyk"]
+[ext_resource type="Script" uid="uid://ndccht8iyvcu" path="res://Minh/scripts/pete.gd" id="2_p6gg1"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_p6gg1"]
+
+[node name="Node2D" type="Node2D" unique_id=1549772763]
+
+[node name="Player" parent="." unique_id=1276678949 instance=ExtResource("1_gjdyk")]
+position = Vector2(-3, -2)
+script = ExtResource("2_p6gg1")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=830376868]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1819177471]
+position = Vector2(1, 13)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=2044138274]
+position = Vector2(-1, 0)
+shape = SubResource("WorldBoundaryShape2D_p6gg1")
