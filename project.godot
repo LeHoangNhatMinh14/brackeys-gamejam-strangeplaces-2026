@@ -15,6 +15,10 @@ run/main_scene="uid://ddo2kerqhahxr"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
+[debug]
+
+file_logging/enable_file_logging=true
+
 [input]
 
 jump={
