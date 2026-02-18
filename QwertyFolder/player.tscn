@@ -8,19 +8,19 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gbld4"]
 atlas = ExtResource("2_6wjp4")
-region = Rect2(0, 0, 100, 100)
+region = Rect2(100, 0, 100, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ana35"]
 atlas = ExtResource("2_6wjp4")
-region = Rect2(100, 0, 100, 100)
+region = Rect2(0, 0, 100, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8rb74"]
 atlas = ExtResource("2_6wjp4")
-region = Rect2(0, 100, 100, 100)
+region = Rect2(100, 100, 100, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mosi4"]
 atlas = ExtResource("2_6wjp4")
-region = Rect2(100, 100, 100, 100)
+region = Rect2(0, 100, 100, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6a7pn"]
 atlas = ExtResource("3_o67hd")
@@ -155,7 +155,7 @@ script = ExtResource("1_ige0b")
 sprite_frames = SubResource("SpriteFrames_4yc2y")
 animation = &"Idle"
 autoplay = "Idle"
-frame_progress = 0.93030936
+frame_progress = 0.75050807
 
 [node name="Face" type="AnimatedSprite2D" parent="." unique_id=185708749]
 z_index = 1
@@ -164,7 +164,7 @@ scale = Vector2(0.44156253, 0.44156253)
 sprite_frames = SubResource("SpriteFrames_u88ca")
 animation = &"FaceIdle"
 autoplay = "FaceIdle"
-frame_progress = 0.78049546
+frame_progress = 0.21235971
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1061239739]
 position = Vector2(0, 7)

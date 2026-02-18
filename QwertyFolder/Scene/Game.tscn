@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://ddo2kerqhahxr"]
 
 [ext_resource type="PackedScene" uid="uid://bsyrhqns7mgct" path="res://QwertyFolder/player.tscn" id="1_64gy8"]
+[ext_resource type="PackedScene" uid="uid://b25erkf80a1a8" path="res://QwertyFolder/Scene/dog.tscn" id="2_ht7qh"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_64gy8"]
 
@@ -11,10 +12,14 @@ position = Vector2(1, -50)
 
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D" unique_id=1214707268]
 position = Vector2(-1, -33)
+zoom = Vector2(2, 2)
 position_smoothing_enabled = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1981248202]
-position = Vector2(0, 150)
+position = Vector2(0, 35)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=21842697]
 shape = SubResource("WorldBoundaryShape2D_64gy8")
+
+[node name="Dog" parent="." unique_id=1087036858 instance=ExtResource("2_ht7qh")]
+position = Vector2(280, -37)
