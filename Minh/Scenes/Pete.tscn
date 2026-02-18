@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://b3j5iyf0fj76p"]
 
 [ext_resource type="Texture2D" uid="uid://b1f86bx43rll2" path="res://Minh/kenney_platformer-characters/PNG/Player/player_tilesheet.png" id="1_xn1xs"]
+[ext_resource type="Script" uid="uid://ccgowe5x8lfbp" path="res://Minh/scripts/pawg_companion.gd" id="2_bf5j5"]
+[ext_resource type="Script" uid="uid://x43687jv3lk6" path="res://Minh/scripts/p_dwag.gd" id="2_vk7pb"]
 [ext_resource type="Texture2D" uid="uid://bcup85p7a4tk2" path="res://Minh/kenney_new-platformer-pack-1.1/Vector/Tiles/bomb.svg" id="4_5nqbg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0yhsw"]
@@ -21,7 +23,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xn1xs"]
 size = Vector2(13.5, 16.5)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_0yhsw"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bf5j5"]
 
 [node name="Player" type="CharacterBody2D" unique_id=1276678949]
 
@@ -34,25 +36,29 @@ sprite_frames = SubResource("SpriteFrames_eqnoq")
 position = Vector2(0, -11)
 shape = SubResource("RectangleShape2D_xn1xs")
 
-[node name="PAWG Companion" type="Node2D" parent="." unique_id=146195121]
+[node name="PDawg Companion" type="Node2D" parent="." unique_id=146195121]
 position = Vector2(-17, -30)
+script = ExtResource("2_bf5j5")
+dog_path = NodePath("PDawg")
 
-[node name="PDwag" type="Node2D" parent="PAWG Companion" unique_id=1037402282]
+[node name="PDawg" type="Node2D" parent="PDawg Companion" unique_id=2007595443]
+script = ExtResource("2_vk7pb")
 
-[node name="Visual" type="Node2D" parent="PAWG Companion/PDwag" unique_id=1786454288]
+[node name="Visual" type="Node2D" parent="PDawg Companion/PDawg" unique_id=704664947]
 
-[node name="Head" type="Sprite2D" parent="PAWG Companion/PDwag/Visual" unique_id=852297348]
+[node name="Head" type="Sprite2D" parent="PDawg Companion/PDawg/Visual" unique_id=83687378]
 position = Vector2(-2, 1)
 scale = Vector2(0.203125, 0.203125)
 texture = ExtResource("4_5nqbg")
 
-[node name="Body" type="NinePatchRect" parent="PAWG Companion/PDwag/Visual" unique_id=2041870798]
+[node name="Body" type="NinePatchRect" parent="PDawg Companion/PDawg/Visual" unique_id=180307648]
 offset_right = 40.0
 offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true
 
-[node name="Tail" type="Sprite2D" parent="PAWG Companion/PDwag/Visual" unique_id=447148354]
+[node name="Tail" type="Sprite2D" parent="PDawg Companion/PDawg/Visual" unique_id=1178272271]
 
-[node name="PlatformArea" type="StaticBody2D" parent="PAWG Companion/PDwag" unique_id=155979270]
+[node name="PlatformArea" type="StaticBody2D" parent="PDawg Companion/PDawg" unique_id=649771484]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PAWG Companion/PDwag/PlatformArea" unique_id=649156988]
-shape = SubResource("RectangleShape2D_0yhsw")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PDawg Companion/PDawg/PlatformArea" unique_id=1619269192]
+shape = SubResource("RectangleShape2D_bf5j5")

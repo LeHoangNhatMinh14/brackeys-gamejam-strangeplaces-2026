@@ -1,38 +1,25 @@
 extends Node2D
 
-@export var dog_scene: PackedScene
-
-var dog: Node = null
-var dog_unlocked := true
-var dog_left := false
-var dog_can_reactivate := false
+@export var dog_path: NodePath
+@onready var dog = get_node(dog_path)
 
 func _ready() -> void:
-	if dog_unlocked and not dog_left:
-		_spawn_dog()
+	dog.player = get_parent()
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("dog_toggle"):
-		_toggle()
-
-func _physics_process(_delta: float) -> void:
-	if dog == null:
+func _process(_delta: float) -> void:
+	if not dog.visible:
 		return
 	dog.set_extending(Input.is_action_pressed("dog_extend"))
 
-func _toggle() -> void:
-	if dog_left and not dog_can_reactivate:
-		return
+func activate_dog() -> void:
+	dog.visible = true
+	dog.set_process(true)
 
-	if dog == null:
-		_spawn_dog()
-	else:
-		dog.queue_free()
-		dog = null
+func deactivate_dog() -> void:
+	dog.set_extending(false)
+	dog.visible = false
+	dog.set_process(false)
 
-func _spawn_dog() -> void:
-	if dog_scene == null:
-		return
-	dog = dog_scene.instantiate()
-	get_parent().add_child(dog)
-	dog.player = get_parent()
+func dog_leaves() -> void:
+	# use this for the quest moment
+	deactivate_dog()
