@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://rle4adfepu1h" path="res://QwertyFolder/Assets/PlayerFaceIdle.png" id="4_o67hd"]
 [ext_resource type="Texture2D" uid="uid://cpsdwjco0v5xx" path="res://QwertyFolder/Assets/PlayerFaceTalk.png" id="5_gbld4"]
 [ext_resource type="PackedScene" uid="uid://c6hmb3ypld3v6" path="res://QwertyFolder/Scene/dog.tscn" id="7_2qd6c"]
-[ext_resource type="Script" uid="uid://bw3bykbms2c47" path="res://Minh/scripts/cooldown_bar.gd" id="7_8ejv7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gbld4"]
 atlas = ExtResource("2_6wjp4")
@@ -178,17 +177,3 @@ shape = SubResource("CapsuleShape2D_7en5r")
 position = Vector2(-43, 29)
 dog_y_offset = 30.0
 body_height = 32.0
-
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1587531397]
-position = Vector2(0, 23)
-zoom = Vector2(2, 2)
-position_smoothing_enabled = true
-
-[node name="CanvasLayer" type="CanvasLayer" parent="Camera2D" unique_id=1241458052]
-script = ExtResource("7_8ejv7")
-
-[node name="CooldownBar" type="TextureProgressBar" parent="Camera2D/CanvasLayer" unique_id=914483235]
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 60.0
-offset_bottom = 60.0

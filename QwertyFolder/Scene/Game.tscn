@@ -263,11 +263,16 @@ sources/0 = SubResource("TileSetAtlasSource_qj4l7")
 [node name="Player" parent="." unique_id=777745129 instance=ExtResource("1_ht7qh")]
 position = Vector2(-557, -48)
 
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1214707268]
+position = Vector2(0, 23)
+zoom = Vector2(2, 2)
+position_smoothing_enabled = true
+
 [node name="TileMap" type="TileMap" parent="." unique_id=1086486689]
 position = Vector2(0, -5)
 tile_set = SubResource("TileSet_taniq")
 format = 2
-layer_0/tile_data = PackedInt32Array(65499, 0, 0, 65498, 0, 0, 65497, 0, 0, 65496, 0, 0, 65495, 0, 0, 65494, 0, 0, 65493, 0, 0, 65492, 0, 0, 131035, 0, 1, 131034, 0, 1, 131033, 0, 1, 131032, 0, 1, 131031, 0, 1, 131030, 0, 1, 131029, 0, 1, 131028, 0, 1, 131027, 0, 1)
+layer_0/tile_data = PackedInt32Array(65499, 0, 0, 65498, 0, 0, 65497, 0, 0, 65496, 0, 0, 65495, 0, 0, 65494, 0, 0, 65493, 0, 0, 65492, 0, 0, 131035, 0, 1, 131034, 0, 1, 131033, 0, 1, 131032, 0, 1, 131031, 0, 1, 131030, 0, 1, 131029, 0, 1, 131028, 0, 1, 131027, 0, 1, -44, 0, 1, -65580, 0, 1, -131116, 0, 1, -196652, 0, 1, -262188, 0, 1, -327724, 0, 1, -24, 0, 1, -65560, 0, 1, -131096, 0, 1, -196632, 0, 1, -262168, 0, 1, -327704, 0, 1, -393240, 0, 1)
 
 [node name="Layer1" type="TileMapLayer" parent="TileMap" unique_id=1049929426]
 use_parent_material = true
