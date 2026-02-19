@@ -10,6 +10,7 @@ const faceOffset = 13
 @onready var faceSprite: AnimatedSprite2D = $Face
 
 func _physics_process(delta: float) -> void:
+	print("PLAYER TICK")
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta

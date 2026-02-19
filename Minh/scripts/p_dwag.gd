@@ -1,94 +1,172 @@
 extends Node2D
 
-@export var max_length := 220.0
-@export var extend_speed := 700.0
-@export var platform_height := 18.0
-@export var extra_down := 2.0
+enum DogState { IDLE, EXTEND, RETRACT }
 
-var player: Node2D
-var extending := false
-var was_extending := false
-var current_length := 0.0
-var placed_facing := 1
+@export var max_length: float = 220.0
+@export var extend_speed: float = 700.0
 
-@onready var platform_area: StaticBody2D = $PlatformArea
+@export var base_scale: float = 0.5
+
+# Distances from player side (positive numbers)
+@export var idle_gap: float = 50.0       # behind when idle
+@export var extend_gap: float = 50.0     # in front when extending/retracting
+@export var dog_y_offset: float = 0.0
+
+# Platform collision
+@export var platform_height: float = 14.0
+@export var extra_down: float = 2.0
+@export var solid_after: float = 20.0
+
+# Visual stretch between Tail and Head
+@export var cap_y: float = 0.0
+@export var body_y: float = -13.0
+@export var body_height: float = 16.0
+@export var tail_cap_width: float = 32.0
+@export var head_cap_width: float = 32.0
+
+var player: Node2D = null
+var state: int = DogState.IDLE
+var current_length: float = 0.0
+
+# Used to keep the head anchored during retract
+var head_anchor_x: float = 0.0
+
+@onready var visuals: Node2D = $Visuals
+@onready var head: Node2D = $Visuals/Head
+@onready var tail: Node2D = $Visuals/Tail
+@onready var body: NinePatchRect = $Visuals/Body
+
 @onready var colshape: CollisionShape2D = $PlatformArea/CollisionShape2D
-@onready var rect: RectangleShape2D = colshape.shape as RectangleShape2D
-
-var original_parent: Node = null
+var rect: RectangleShape2D = null
 
 func _ready() -> void:
-	original_parent = platform_area.get_parent()
-	# start disabled
+	player = get_parent() as Node2D
+
+	if colshape.shape == null:
+		colshape.shape = RectangleShape2D.new()
+	rect = colshape.shape as RectangleShape2D
 	colshape.disabled = true
 
-func set_extending(v: bool) -> void:
-	extending = v
+	body.position.y = body_y
+	body.size.y = body_height
 
 func _process(delta: float) -> void:
-	if player == null:
+	if player == null or rect == null:
 		return
 
-	# Detect start of extend (button just pressed)
-	if extending and not was_extending:
-		placed_facing = _get_player_facing()
-		_place_platform_once(placed_facing)
+	var pressed: bool = Input.is_action_pressed("dog_extend")
+	var facing: int = _get_player_facing()
 
-	# Detect end of extend (button released)
-	if not extending and was_extending:
-		# Optional: keep platform where it is and retract away in place
-		# (If you want it to instantly disappear instead, call _unplace_platform())
-		pass
+	# keep default scale 0.5, only flip X
+	visuals.scale = Vector2(base_scale * float(facing), base_scale)
 
-	was_extending = extending
+	# state transitions
+	if state == DogState.IDLE:
+		if pressed:
+			state = DogState.EXTEND
+	elif state == DogState.EXTEND:
+		if not pressed:
+			# start retract: anchor the head where it currently is
+			state = DogState.RETRACT
+			head_anchor_x = current_length
+	elif state == DogState.RETRACT:
+		if pressed:
+			# allow re-hold to extend again
+			state = DogState.EXTEND
 
-	# Extend/retract length (platform stays where it was placed)
-	if extending:
-		current_length = move_toward(current_length, max_length, extend_speed * delta)
+	# update length
+	var target_len: float = 0.0
+	if state == DogState.EXTEND:
+		target_len = max_length
+	elif state == DogState.RETRACT:
+		target_len = 0.0
 	else:
-		current_length = move_toward(current_length, 0.0, extend_speed * delta)
+		target_len = 0.0
 
-	_update_platform(placed_facing)
+	current_length = move_toward(current_length, target_len, extend_speed * delta)
 
-	# When fully retracted, disable collision and (optionally) return under the dog
-	if current_length <= 0.5 and not extending:
+	# place dog relative to player
+	_place_dog(facing)
+
+	# update collision + visuals (depends on anchor)
+	_update_platform_and_visuals()
+
+	# finish retract -> go idle only after fully collapsed
+	if state == DogState.RETRACT and current_length <= 0.5:
+		state = DogState.IDLE
 		colshape.disabled = true
-		# If you want it to “go back to the dog” when not used:
-		_unplace_platform()
 
-func _place_platform_once(facing: int) -> void:
-	# Move PlatformArea OUT of the player tree so it stops following the player
-	var scene_root := get_tree().current_scene
-	if platform_area.get_parent() != scene_root:
-		platform_area.get_parent().remove_child(platform_area)
-		scene_root.add_child(platform_area)
+func _place_dog(facing: int) -> void:
+	var side_x: float = _get_player_side_x(facing)
 
-	# Place at player's feet (RectangleShape2D assumed)
-	var player_col := player.get_node_or_null("CollisionShape2D") as CollisionShape2D
-	if player_col != null and player_col.shape is RectangleShape2D:
-		var s := player_col.shape as RectangleShape2D
-		var bottom_y := player.global_position.y + (s.size.y * 0.5) + extra_down
-		platform_area.global_position = Vector2(player.global_position.x, bottom_y)
+	if state == DogState.IDLE:
+		# behind player
+		var idle_x: float = side_x - idle_gap * float(facing)
+		position = Vector2(idle_x, dog_y_offset)
 	else:
-		platform_area.global_position = player.global_position
+		# in front during extend + retract
+		var active_x: float = side_x + extend_gap * float(facing)
+		position = Vector2(active_x, dog_y_offset)
 
-	colshape.disabled = false
+func _update_platform_and_visuals() -> void:
+	# collision enable rule (avoid overlap pushback)
+	colshape.disabled = (current_length < solid_after)
 
-func _unplace_platform() -> void:
-	# Put PlatformArea back under PDwag (optional)
-	if original_parent == null:
-		return
-	if platform_area.get_parent() != original_parent:
-		platform_area.get_parent().remove_child(platform_area)
-		original_parent.add_child(platform_area)
-	platform_area.position = Vector2.ZERO  # reset local position under PDwag
-
-func _update_platform(facing: int) -> void:
-	colshape.disabled = current_length <= 4.0
 	rect.size = Vector2(current_length, platform_height)
-	colshape.position = Vector2((current_length * 0.5) * facing, platform_height * 0.5)
+
+	# Y align to player's feet line
+	var feet_y: float = 0.0
+	var pcol := player.get_node_or_null("CollisionShape2D")
+	if pcol is CollisionShape2D and (pcol.shape is RectangleShape2D):
+		var s := pcol.shape as RectangleShape2D
+		feet_y = (s.size.y * 0.5) + extra_down
+	colshape.position.y = feet_y + (platform_height * 0.5)
+
+	if state == DogState.EXTEND:
+		# TAIL anchored at x=0, HEAD moves forward
+		tail.position = Vector2(0.0, cap_y)
+		head.position = Vector2(current_length, cap_y)
+
+		# platform extends forward from tail
+		colshape.position.x = current_length * 0.5
+
+		# body between tail and head
+		_stretch_body_between(tail_cap_width, current_length - head_cap_width)
+
+	elif state == DogState.RETRACT:
+		# HEAD anchored at head_anchor_x, TAIL moves toward it
+		head.position = Vector2(head_anchor_x, cap_y)
+		tail.position = Vector2(head_anchor_x - current_length, cap_y)
+
+		# platform shrinks toward head (extends backward from head)
+		colshape.position.x = head_anchor_x - current_length * 0.5
+
+		# body between tail and head
+		var start_x: float = (head_anchor_x - current_length) + tail_cap_width
+		var end_x: float = head_anchor_x - head_cap_width
+		_stretch_body_between(start_x, end_x)
+
+	else:
+		# IDLE: keep it compact
+		current_length = 0.0
+		tail.position = Vector2(0.0, cap_y)
+		head.position = Vector2(0.0, cap_y)
+		body.size.x = 0.0
+		colshape.disabled = true
+
+func _stretch_body_between(start_x: float, end_x: float) -> void:
+	var mid_len: float = max(0.0, end_x - start_x)
+	body.position.x = start_x
+	body.size.x = mid_len
+
+func _get_player_side_x(facing: int) -> float:
+	var pcol := player.get_node_or_null("CollisionShape2D")
+	if pcol is CollisionShape2D and (pcol.shape is RectangleShape2D):
+		var s := pcol.shape as RectangleShape2D
+		return (s.size.x * 0.5) * float(facing)
+	return 0.0
 
 func _get_player_facing() -> int:
 	if player != null and player.has_method("get_facing_dir"):
 		return int(player.call("get_facing_dir"))
-	return -1 if player != null and player.scale.x < 0.0 else 1
+	return 1
