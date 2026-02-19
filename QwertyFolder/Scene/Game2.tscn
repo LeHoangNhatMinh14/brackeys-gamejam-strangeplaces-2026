@@ -1,10 +1,10 @@
-[gd_scene format=4 uid="uid://ddo2kerqhahxr"]
+[gd_scene format=4 uid="uid://btwijkq6j686f"]
 
-[ext_resource type="PackedScene" uid="uid://bsirgbu8h7cvg" path="res://QwertyFolder/Scene/player.tscn" id="1_ht7qh"]
-[ext_resource type="Texture2D" uid="uid://brldhrs4oq2f6" path="res://Minh/brackeys_platformer_assets/sprites/world_tileset.png" id="2_ht7qh"]
+[ext_resource type="PackedScene" uid="uid://bsirgbu8h7cvg" path="res://QwertyFolder/Scene/player.tscn" id="1_ksqau"]
+[ext_resource type="Texture2D" uid="uid://brldhrs4oq2f6" path="res://Minh/brackeys_platformer_assets/sprites/world_tileset.png" id="2_c0ga6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ht7qh"]
-texture = ExtResource("2_ht7qh")
+texture = ExtResource("2_c0ga6")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:0/0 = 0
@@ -168,7 +168,7 @@ sources/0 = SubResource("TileSetAtlasSource_ht7qh")
 
 [node name="Game" type="Node2D" unique_id=270059936]
 
-[node name="Player" parent="." unique_id=777745129 instance=ExtResource("1_ht7qh")]
+[node name="Player" parent="." unique_id=777745129 instance=ExtResource("1_ksqau")]
 position = Vector2(-557, -48)
 
 [node name="TileMap" type="TileMap" parent="." unique_id=1086486689]
