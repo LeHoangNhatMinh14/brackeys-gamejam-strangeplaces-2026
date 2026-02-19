@@ -1,316 +1,172 @@
 extends Node2D
 
-enum DogState { IDLE, MOVE_FRONT, EXTEND, RETRACT, MOVE_BACK }
+enum DogState { IDLE, EXTEND, RETRACT }
 
 @export var max_length: float = 220.0
 @export var extend_speed: float = 700.0
-@export var reposition_speed: float = 900.0
+
 @export var base_scale: float = 0.5
-@export var cooldown_time: float = 2   # seconds before it can extend again
-var cooldown_timer: float = 0.0
 
-# Placement relative to player (positive numbers)
-@export var idle_gap: float = 50.0
-@export var extend_gap: float = 50.0
+# Distances from player side (positive numbers)
+@export var idle_gap: float = 50.0       # behind when idle
+@export var extend_gap: float = 50.0     # in front when extending/retracting
 @export var dog_y_offset: float = 0.0
-@export var snap_epsilon: float = 1.0
 
-# Bridge feel
-@export var bridge_drop_y: float = 6.0
+# Platform collision
 @export var platform_height: float = 14.0
-@export var platform_width_pad: float = 8.0
 @export var extra_down: float = 2.0
 @export var solid_after: float = 20.0
 
-# Visual alignment
+# Visual stretch between Tail and Head
 @export var cap_y: float = 0.0
 @export var body_y: float = -13.0
 @export var body_height: float = 16.0
+@export var tail_cap_width: float = 32.0
+@export var head_cap_width: float = 32.0
 
-# Align endpoints to art (small numbers)
-@export var butt_offset: float = 0.0
-@export var snout_offset: float = 0.0
-
-# Visual trims
-@export var body_trim_start: float = 0.0
-@export var body_trim_end: float = 0.0
-
-var player: Node2D
+var player: Node2D = null
 var state: int = DogState.IDLE
+var current_length: float = 0.0
 
-var current_length: float = 10.0
-var end_anchor_x: float = 0.0
-var facing_dir: int = 1
-
-var retract_start_len: float = 0.0
-
-# detaching
-var detached: bool = false
-var original_parent: Node = null
-var detach_parent: Node = null
-var saved_global_pos: Vector2 = Vector2.ZERO
+# Used to keep the head anchored during retract
+var head_anchor_x: float = 0.0
 
 @onready var visuals: Node2D = $Visuals
 @onready var head: Node2D = $Visuals/Head
 @onready var tail: Node2D = $Visuals/Tail
-@onready var body: Sprite2D = $Visuals/Body
+@onready var body: NinePatchRect = $Visuals/Body
 
-@onready var platform_area: StaticBody2D = $PlatformArea
 @onready var colshape: CollisionShape2D = $PlatformArea/CollisionShape2D
-var rect: RectangleShape2D
-
-# Authored idle pose
-var idle_head_pos: Vector2
-var idle_tail_pos: Vector2
-var idle_body_pos: Vector2
-var idle_body_visible: bool = true
-var idle_body_region: Rect2
+var rect: RectangleShape2D = null
 
 func _ready() -> void:
 	player = get_parent() as Node2D
 
-	idle_head_pos = head.position
-	idle_tail_pos = tail.position
-	idle_body_pos = body.position
-	idle_body_visible = body.visible
-
-	body.region_enabled = true
-	idle_body_region = body.region_rect
-
-	if not (colshape.shape is RectangleShape2D):
+	if colshape.shape == null:
 		colshape.shape = RectangleShape2D.new()
 	rect = colshape.shape as RectangleShape2D
 	colshape.disabled = true
 
-func _process(delta: float) -> void:
-	if player == null:
-		return
+	body.position.y = body_y
+	body.size.y = body_height
 
-	# cooldown tick
-	if cooldown_timer > 0.0:
-		cooldown_timer -= delta
-		if cooldown_timer < 0.0:
-			cooldown_timer = 0.0
+func _process(delta: float) -> void:
+	if player == null or rect == null:
+		return
 
 	var pressed: bool = Input.is_action_pressed("dog_extend")
+	var facing: int = _get_player_facing()
 
-	# Only refresh facing when attached (so detached bridge keeps orientation)
-	if not detached and state in [DogState.IDLE, DogState.MOVE_FRONT, DogState.MOVE_BACK]:
-		var f: int = _get_player_facing()
-		facing_dir = -1 if f < 0 else 1
+	# keep default scale 0.5, only flip X
+	visuals.scale = Vector2(base_scale * float(facing), base_scale)
 
-	# Flip + scale visuals
-	visuals.scale = Vector2(base_scale * float(facing_dir), base_scale)
-
-	# Flip + scale platform too (so local +X is always "forward")
-	platform_area.scale = Vector2(base_scale * float(facing_dir), base_scale)
-
-	# Player-local positions (only valid while attached)
-	var side_x: float = _get_player_side_x(facing_dir)
-	var x_idle: float = side_x - idle_gap * float(facing_dir)
-	var x_front: float = side_x + extend_gap * float(facing_dir)
-
+	# state transitions
 	if state == DogState.IDLE:
-		_restore_idle_pose()
-		colshape.disabled = true
-		current_length = 0.0
-
-		# Ensure attached in idle
-		if detached:
-			_reattach_to_player()
-
-		position = Vector2(x_idle, dog_y_offset)
-
-		# COOLDOWN GATE
-		if pressed and cooldown_timer <= 0.0:
-			state = DogState.MOVE_FRONT
-
-	elif state == DogState.MOVE_FRONT:
-		_restore_idle_pose()
-		colshape.disabled = true
-
-		position.x = move_toward(position.x, x_front, reposition_speed * delta)
-		position.y = dog_y_offset
-
+		if pressed:
+			state = DogState.EXTEND
+	elif state == DogState.EXTEND:
 		if not pressed:
-			state = DogState.MOVE_BACK
-		elif abs(position.x - x_front) <= snap_epsilon:
-			position.x = x_front
-			position.y = dog_y_offset + bridge_drop_y
-			_detach_to_world()
+			# start retract: anchor the head where it currently is
+			state = DogState.RETRACT
+			head_anchor_x = current_length
+	elif state == DogState.RETRACT:
+		if pressed:
+			# allow re-hold to extend again
 			state = DogState.EXTEND
 
-	elif state == DogState.EXTEND:
-		# Detached: do not move position.
-		var target_len: float = max_length if pressed else 0.0
-		current_length = move_toward(current_length, target_len, extend_speed * delta)
-		_apply_extend()
-
-		if not pressed:
-			retract_start_len = clamp(current_length, 0.0, max_length)
-			current_length = retract_start_len
-			end_anchor_x = (_start_x() + retract_start_len) - snout_offset
-
-			state = DogState.RETRACT
-			_apply_retract()
-			return
-
+	# update length
+	var target_len: float = 0.0
+	if state == DogState.EXTEND:
+		target_len = max_length
 	elif state == DogState.RETRACT:
-		current_length = move_toward(current_length, 0.0, extend_speed * delta)
-		_apply_retract()
+		target_len = 0.0
+	else:
+		target_len = 0.0
 
-		if current_length <= 0.5:
-			current_length = 0.0
-			colshape.disabled = true
-			body.visible = false
+	current_length = move_toward(current_length, target_len, extend_speed * delta)
 
-			_reattach_to_player()
+	# place dog relative to player
+	_place_dog(facing)
 
-			# START COOLDOWN AFTER RETRACT FINISHES
-			cooldown_timer = cooldown_time
+	# update collision + visuals (depends on anchor)
+	_update_platform_and_visuals()
 
-			state = DogState.MOVE_BACK
-
-	elif state == DogState.MOVE_BACK:
-		_restore_idle_pose()
+	# finish retract -> go idle only after fully collapsed
+	if state == DogState.RETRACT and current_length <= 0.5:
+		state = DogState.IDLE
 		colshape.disabled = true
 
-		position.x = move_toward(position.x, x_idle, reposition_speed * delta)
-		position.y = dog_y_offset
+func _place_dog(facing: int) -> void:
+	var side_x: float = _get_player_side_x(facing)
 
-		# COOLDOWN GATE
-		if pressed and cooldown_timer <= 0.0:
-			state = DogState.MOVE_FRONT
-		elif abs(position.x - x_idle) <= snap_epsilon:
-			position.x = x_idle
-			state = DogState.IDLE
+	if state == DogState.IDLE:
+		# behind player
+		var idle_x: float = side_x - idle_gap * float(facing)
+		position = Vector2(idle_x, dog_y_offset)
+	else:
+		# in front during extend + retract
+		var active_x: float = side_x + extend_gap * float(facing)
+		position = Vector2(active_x, dog_y_offset)
 
-# ---------------- Detach / Reattach ----------------
+func _update_platform_and_visuals() -> void:
+	# collision enable rule (avoid overlap pushback)
+	colshape.disabled = (current_length < solid_after)
 
-func _detach_to_world() -> void:
-	if detached:
-		return
+	rect.size = Vector2(current_length, platform_height)
 
-	original_parent = get_parent()
-
-	# Prefer player's parent (level/world) as stable detach target
-	detach_parent = player.get_parent()
-	if detach_parent == null:
-		# fallback: original_parent's parent
-		detach_parent = original_parent.get_parent()
-
-	# If still null, cannot detach safely
-	if detach_parent == null:
-		return
-
-	saved_global_pos = global_position
-
-	(original_parent as Node).remove_child(self)
-	(detach_parent as Node).add_child(self)
-
-	global_position = saved_global_pos
-	detached = true
-
-func _reattach_to_player() -> void:
-	if not detached:
-		return
-
-	var gpos: Vector2 = global_position
-
-	get_parent().remove_child(self)
-	player.add_child(self)
-
-	global_position = gpos
-	detached = false
-
-# ---------------- Idle pose ----------------
-
-func _restore_idle_pose() -> void:
-	head.position = idle_head_pos
-	tail.position = idle_tail_pos
-	body.position = idle_body_pos
-	body.visible = idle_body_visible
-	body.region_rect = idle_body_region
-
-# ---------------- Endpoints & application ----------------
-
-func _start_x() -> float:
-	return idle_tail_pos.x + butt_offset
-
-func _apply_extend() -> void:
-	var start_x: float = _start_x()
-	var len: float = clamp(current_length, 0.0, max_length)
-	var end_x: float = start_x + len
-	var end_trim: float = end_x - snout_offset
-
-	tail.position = Vector2(idle_tail_pos.x, cap_y)
-	head.position = Vector2(end_x, cap_y)
-
-	body.visible = true
-	body.position.y = body_y
-	_stretch_body_between(start_x + body_trim_start, end_trim - body_trim_end)
-
-	_update_platform_from_endpoints(start_x, end_trim)
-
-func _apply_retract() -> void:
-	# NOTE: kept exactly as you had it (no change requested)
-	var len: float = clamp(current_length, 100.0, max_length)
-	var end_trim: float = end_anchor_x
-	var start_x: float = end_trim - len
-
-	head.position = Vector2(end_trim + snout_offset, cap_y)
-	tail.position = Vector2((start_x - butt_offset), cap_y)
-
-	body.visible = true
-	body.position.y = body_y
-	_stretch_body_between(start_x + body_trim_start, end_trim - body_trim_end)
-
-	_update_platform_from_endpoints(start_x, end_trim)
-
-func _stretch_body_between(start_x: float, end_x: float) -> void:
-	var width: float = max(0.0, end_x - start_x)
-
-	body.position.x = start_x
-
-	var rr: Rect2 = body.region_rect
-	rr.size.x = width
-	rr.size.y = body_height
-	body.region_rect = rr
-
-func _update_platform_from_endpoints(start_x: float, end_x: float) -> void:
+	# Y align to player's feet line
 	var feet_y: float = 0.0
-	var pcol_node: Node = player.get_node_or_null("CollisionShape2D")
-	var pcol: CollisionShape2D = pcol_node as CollisionShape2D
-	if pcol != null and (pcol.shape is RectangleShape2D):
-		var s: RectangleShape2D = pcol.shape as RectangleShape2D
+	var pcol := player.get_node_or_null("CollisionShape2D")
+	if pcol is CollisionShape2D and (pcol.shape is RectangleShape2D):
+		var s := pcol.shape as RectangleShape2D
 		feet_y = (s.size.y * 0.5) + extra_down
-
-	var bridge_len: float = max(0.0, end_x - start_x)
-	var padded_len: float = max(0.0, bridge_len + platform_width_pad)
-
-	colshape.disabled = (bridge_len < solid_after)
-
-	rect.size = Vector2(padded_len, platform_height)
-	colshape.position.x = (start_x + end_x) * 0.5
 	colshape.position.y = feet_y + (platform_height * 0.5)
 
-# ---------------- Player helpers ----------------
+	if state == DogState.EXTEND:
+		# TAIL anchored at x=0, HEAD moves forward
+		tail.position = Vector2(0.0, cap_y)
+		head.position = Vector2(current_length, cap_y)
+
+		# platform extends forward from tail
+		colshape.position.x = current_length * 0.5
+
+		# body between tail and head
+		_stretch_body_between(tail_cap_width, current_length - head_cap_width)
+
+	elif state == DogState.RETRACT:
+		# HEAD anchored at head_anchor_x, TAIL moves toward it
+		head.position = Vector2(head_anchor_x, cap_y)
+		tail.position = Vector2(head_anchor_x - current_length, cap_y)
+
+		# platform shrinks toward head (extends backward from head)
+		colshape.position.x = head_anchor_x - current_length * 0.5
+
+		# body between tail and head
+		var start_x: float = (head_anchor_x - current_length) + tail_cap_width
+		var end_x: float = head_anchor_x - head_cap_width
+		_stretch_body_between(start_x, end_x)
+
+	else:
+		# IDLE: keep it compact
+		current_length = 0.0
+		tail.position = Vector2(0.0, cap_y)
+		head.position = Vector2(0.0, cap_y)
+		body.size.x = 0.0
+		colshape.disabled = true
+
+func _stretch_body_between(start_x: float, end_x: float) -> void:
+	var mid_len: float = max(0.0, end_x - start_x)
+	body.position.x = start_x
+	body.size.x = mid_len
 
 func _get_player_side_x(facing: int) -> float:
-	var pcol_node: Node = player.get_node_or_null("CollisionShape2D")
-	var pcol: CollisionShape2D = pcol_node as CollisionShape2D
-	if pcol != null and (pcol.shape is RectangleShape2D):
-		var s: RectangleShape2D = pcol.shape as RectangleShape2D
+	var pcol := player.get_node_or_null("CollisionShape2D")
+	if pcol is CollisionShape2D and (pcol.shape is RectangleShape2D):
+		var s := pcol.shape as RectangleShape2D
 		return (s.size.x * 0.5) * float(facing)
 	return 0.0
-	
-func get_cooldown_ratio() -> float:
-	if cooldown_time <= 0.0:
-		return 0.0
-	return clamp(cooldown_timer / cooldown_time, 0.0, 1.0)
 
 func _get_player_facing() -> int:
 	if player != null and player.has_method("get_facing_dir"):
-		var v: Variant = player.call("get_facing_dir")
-		return int(v)
+		return int(player.call("get_facing_dir"))
 	return 1
