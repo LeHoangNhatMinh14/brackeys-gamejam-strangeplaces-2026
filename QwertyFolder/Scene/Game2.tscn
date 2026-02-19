@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://btwijkq6j686f"]
+[gd_scene format=4 uid="uid://d4aj18j4423r6"]
 
 [ext_resource type="PackedScene" uid="uid://bsirgbu8h7cvg" path="res://QwertyFolder/Scene/player.tscn" id="1_ksqau"]
 [ext_resource type="Texture2D" uid="uid://brldhrs4oq2f6" path="res://Minh/brackeys_platformer_assets/sprites/world_tileset.png" id="2_c0ga6"]
