@@ -153,8 +153,13 @@ animations = [{
 [node name="Dog" type="Node2D" unique_id=1087036858]
 position = Vector2(-44, 26)
 script = ExtResource("1_mfqxx")
+extend_gap = 67.0
+body_height = 0.0
+butt_offset = 1.0
+snout_offset = 1.0
+body_trim_end = 20.0
 
-[node name="Visuals" type="Node2D" parent="." unique_id=1856448475]
+[node name="Visuals" type="Node2D" parent="." unique_id=1328442735]
 
 [node name="Head" type="AnimatedSprite2D" parent="Visuals" unique_id=1877946904]
 z_index = -2
@@ -178,17 +183,14 @@ animation = &"Idle"
 autoplay = "Idle"
 frame_progress = 0.8546896
 
-[node name="Body" type="NinePatchRect" parent="Visuals" unique_id=1658551161]
+[node name="Body" type="Sprite2D" parent="Visuals" unique_id=1341636444]
+visible = false
 z_index = -2
-offset_left = -92.0
-offset_top = -119.0
-offset_right = -92.0
-offset_bottom = -119.0
+position = Vector2(-45, -105)
 texture = ExtResource("4_mfqxx")
+centered = false
+region_enabled = true
 region_rect = Rect2(-2, 36, 104, 35)
-patch_margin_left = 1
-patch_margin_top = 1
-axis_stretch_horizontal = 1
 
 [node name="PlatformArea" type="StaticBody2D" parent="." unique_id=1532051851]
 position = Vector2(-1, -1)
