@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://wxxc1kxmi6vy"]
 
 [ext_resource type="Texture2D" uid="uid://cw0myrm4waong" path="res://QwertyFolder/Assets/PDawgChargeBarCharge.png" id="1_8dswv"]
+[ext_resource type="Script" uid="uid://4qbfdsexcde2" path="res://Minh/scripts/p_dawg_cooldown.gd" id="1_omm2r"]
 [ext_resource type="Texture2D" uid="uid://dkkn6qacbxv5j" path="res://QwertyFolder/Assets/PDawgChargeBarIdle.png" id="2_omm2r"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aik62"]
@@ -220,10 +221,11 @@ animations = [{
 }]
 
 [node name="PDawgCooldown" type="Node2D" unique_id=719489301]
+script = ExtResource("1_omm2r")
 
 [node name="CooldownSprite" type="AnimatedSprite2D" parent="." unique_id=1044234220]
 sprite_frames = SubResource("SpriteFrames_esgxh")
-animation = &"Charge"
+animation = &"Idle"
 autoplay = "Idle"
-frame = 24
-frame_progress = 1.0
+frame = 2
+frame_progress = 0.9277445

@@ -153,11 +153,8 @@ animations = [{
 [node name="Dog" type="Node2D" unique_id=1087036858]
 position = Vector2(-44, 26)
 script = ExtResource("1_mfqxx")
-extend_gap = 67.0
-body_height = 0.0
-butt_offset = 1.0
-snout_offset = 1.0
-body_trim_end = 20.0
+extend_gap = 60.0
+body_trim_end = 10.0
 
 [node name="Visuals" type="Node2D" parent="." unique_id=1328442735]
 
