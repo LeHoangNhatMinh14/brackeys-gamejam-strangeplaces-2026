@@ -69,6 +69,7 @@ var idle_tail_pos: Vector2
 var idle_body_pos: Vector2
 var idle_body_visible: bool = true
 var idle_body_region: Rect2
+var want_extend: bool = false
 
 func _ready() -> void:
 	player = get_parent() as Node2D
@@ -92,7 +93,11 @@ func _process(delta: float) -> void:
 
 	_tick_cooldown(delta)
 
-	var pressed: bool = Input.is_action_pressed("dog_extend")
+	var just_pressed := Input.is_action_just_pressed("dog_extend")
+	if just_pressed and cooldown_timer <= 0.0:
+		want_extend = !want_extend
+
+	var pressed: bool = want_extend
 
 	# Only refresh facing when attached (so detached bridge keeps orientation)
 	if not detached and state in [DogState.IDLE, DogState.MOVE_FRONT, DogState.MOVE_BACK]:
@@ -196,6 +201,7 @@ func _state_retract(delta: float) -> void:
 
 		# START COOLDOWN AFTER RETRACT FINISHES
 		cooldown_timer = cooldown_time
+		want_extend = false
 
 		state = DogState.MOVE_BACK
 
