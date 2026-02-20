@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://b78fmacuvbogj"]
+
+[ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="1_10vau"]
+[ext_resource type="Script" uid="uid://ccr7xjvflcmt7" path="res://Minh/scripts/interaction_trigger.gd" id="1_ll3q0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ll3q0"]
+radius = 27.0
+
+[node name="InteractionTrigger" type="Area2D" unique_id=194850221]
+script = ExtResource("1_ll3q0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1493295811]
+position = Vector2(1, 0)
+shape = SubResource("CircleShape2D_ll3q0")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1270788853]
+visible = false
+position = Vector2(0, 1)
+scale = Vector2(0.4453125, 0.4453125)
+texture = ExtResource("1_10vau")
