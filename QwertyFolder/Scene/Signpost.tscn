@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://cteux7ffkrn4e"]
+
+[ext_resource type="Texture2D" uid="uid://bawpyuexc6r7e" path="res://QwertyFolder/Assets/SignpostIdle.png" id="1_p6mpu"]
+[ext_resource type="Texture2D" uid="uid://g7l25r5wcso6" path="res://QwertyFolder/Assets/SignpostTalk.png" id="2_b6ivc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_agpkk"]
+atlas = ExtResource("1_p6mpu")
+region = Rect2(100, 100, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3pyyq"]
+atlas = ExtResource("1_p6mpu")
+region = Rect2(0, 100, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0aki3"]
+atlas = ExtResource("1_p6mpu")
+region = Rect2(100, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n54t5"]
+atlas = ExtResource("1_p6mpu")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_owqw0"]
+atlas = ExtResource("2_b6ivc")
+region = Rect2(100, 100, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aum6b"]
+atlas = ExtResource("2_b6ivc")
+region = Rect2(0, 100, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d8oxd"]
+atlas = ExtResource("2_b6ivc")
+region = Rect2(100, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i6gvn"]
+atlas = ExtResource("2_b6ivc")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_p0ms3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_agpkk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3pyyq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0aki3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n54t5")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_owqw0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aum6b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d8oxd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i6gvn")
+}],
+"loop": true,
+"name": &"Talk",
+"speed": 10.0
+}]
+
+[node name="Signpost" type="Node2D" unique_id=1920310054]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1564922312]
+sprite_frames = SubResource("SpriteFrames_p0ms3")
+animation = &"Idle"
+autoplay = "Idle"
+frame_progress = 0.35560665

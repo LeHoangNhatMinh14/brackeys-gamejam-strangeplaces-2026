@@ -1,0 +1,91 @@
+[gd_scene format=3 uid="uid://dxevppmvr0uw5"]
+
+[ext_resource type="Texture2D" uid="uid://ddkjolwgudo10" path="res://QwertyFolder/Assets/ForkliftIdle.png" id="1_ojmyl"]
+[ext_resource type="Texture2D" uid="uid://7jh86a82vuq4" path="res://QwertyFolder/Assets/ForkliftScream.png" id="2_am33x"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wxpqs"]
+atlas = ExtResource("1_ojmyl")
+region = Rect2(100, 100, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hcaej"]
+atlas = ExtResource("1_ojmyl")
+region = Rect2(0, 100, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xdnok"]
+atlas = ExtResource("1_ojmyl")
+region = Rect2(100, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jp8yc"]
+atlas = ExtResource("1_ojmyl")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cj8sc"]
+atlas = ExtResource("2_am33x")
+region = Rect2(100, 100, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eaj0g"]
+atlas = ExtResource("2_am33x")
+region = Rect2(0, 100, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_stibu"]
+atlas = ExtResource("2_am33x")
+region = Rect2(100, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6thpq"]
+atlas = ExtResource("2_am33x")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nfl7b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wxpqs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hcaej")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xdnok")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jp8yc")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cj8sc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eaj0g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_stibu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6thpq")
+}],
+"loop": true,
+"name": &"Talk",
+"speed": 10.0
+}]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_ojmyl"]
+a = Vector2(-38, -26)
+b = Vector2(-3, -26)
+
+[node name="Forklift" type="Node2D" unique_id=1940734200]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=274287600]
+sprite_frames = SubResource("SpriteFrames_nfl7b")
+animation = &"Idle"
+autoplay = "Idle"
+frame_progress = 0.8964875
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=365863302]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1216668675]
+shape = SubResource("SegmentShape2D_ojmyl")
+one_way_collision = true

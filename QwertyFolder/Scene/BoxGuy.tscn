@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://bunt686vndi6j"]
+
+[ext_resource type="Texture2D" uid="uid://dq3uess8nfkhl" path="res://QwertyFolder/Assets/BoxGuyIdle.png" id="1_3rt55"]
+[ext_resource type="Texture2D" uid="uid://cjhckapqd7iw6" path="res://QwertyFolder/Assets/BoxGuyTalk.png" id="2_0tgux"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cpjq0"]
+atlas = ExtResource("1_3rt55")
+region = Rect2(100, 100, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h70jr"]
+atlas = ExtResource("1_3rt55")
+region = Rect2(0, 100, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ranbr"]
+atlas = ExtResource("1_3rt55")
+region = Rect2(100, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g2sda"]
+atlas = ExtResource("1_3rt55")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c7stm"]
+atlas = ExtResource("2_0tgux")
+region = Rect2(100, 100, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d6oxe"]
+atlas = ExtResource("2_0tgux")
+region = Rect2(0, 100, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_heeqx"]
+atlas = ExtResource("2_0tgux")
+region = Rect2(100, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w57es"]
+atlas = ExtResource("2_0tgux")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l6p6l"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cpjq0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h70jr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ranbr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g2sda")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c7stm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6oxe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_heeqx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w57es")
+}],
+"loop": true,
+"name": &"Talk",
+"speed": 10.0
+}]
+
+[node name="BoxGuy" type="Node2D" unique_id=1715286648]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=594880175]
+sprite_frames = SubResource("SpriteFrames_l6p6l")
+animation = &"Idle"
+autoplay = "Idle"
+frame_progress = 0.35831705

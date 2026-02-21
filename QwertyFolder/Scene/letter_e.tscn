@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://cqbq6pwcvm4u7"]
+
+[ext_resource type="Texture2D" uid="uid://b3ahig1ereeae" path="res://QwertyFolder/Assets/LetterE_Idle.png" id="1_vb8q8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_04geb"]
+atlas = ExtResource("1_vb8q8")
+region = Rect2(100, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fe1na"]
+atlas = ExtResource("1_vb8q8")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_58xja"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_04geb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fe1na")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 10.0
+}]
+
+[node name="LetterE" type="Node2D" unique_id=357995780]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2077946462]
+sprite_frames = SubResource("SpriteFrames_58xja")
+animation = &"Idle"
+autoplay = "Idle"
+frame_progress = 0.48369625
