@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cteux7ffkrn4e" path="res://QwertyFolder/Scene/Signpost.tscn" id="6_pfeyo"]
 [ext_resource type="PackedScene" uid="uid://dxevppmvr0uw5" path="res://QwertyFolder/Scene/Forklift.tscn" id="7_w4pa1"]
 [ext_resource type="PackedScene" uid="uid://cqbq6pwcvm4u7" path="res://QwertyFolder/Scene/letter_e.tscn" id="8_yolh6"]
+[ext_resource type="PackedScene" uid="uid://cbqc50rpaxet5" path="res://QwertyFolder/Scene/vent.tscn" id="9_k5ikt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sfoxf"]
 texture = ExtResource("2_4vt6d")
@@ -199,18 +200,9 @@ position = Vector2(191, -107)
 z_index = -5
 position = Vector2(880, -33)
 
-[node name="Signpost" parent="." unique_id=1920310054 instance=ExtResource("6_pfeyo")]
-z_index = -100
-position = Vector2(402, -240)
-
 [node name="Signpost2" parent="." unique_id=370077755 instance=ExtResource("6_pfeyo")]
 z_index = -5
 position = Vector2(959, -497)
-
-[node name="Signpost3" parent="." unique_id=29057025 instance=ExtResource("6_pfeyo")]
-z_index = -5
-position = Vector2(1379, -817)
-scale = Vector2(-1, 1)
 
 [node name="Forklift" parent="." unique_id=1940734200 instance=ExtResource("7_w4pa1")]
 z_index = -5
@@ -221,3 +213,12 @@ scale = Vector2(2, 2)
 z_index = -5
 position = Vector2(433, -215)
 scale = Vector2(0.5, 0.5)
+
+[node name="Signpost3" parent="." unique_id=1920310054 instance=ExtResource("6_pfeyo")]
+z_index = -5
+position = Vector2(392, -241)
+
+[node name="Vent" parent="." unique_id=1823101440 instance=ExtResource("9_k5ikt")]
+z_index = -5
+position = Vector2(881.00006, -871.00006)
+scale = Vector2(1.25, 1.25)

@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dq3uess8nfkhl" path="res://QwertyFolder/Assets/BoxGuyIdle.png" id="1_3rt55"]
 [ext_resource type="Texture2D" uid="uid://cjhckapqd7iw6" path="res://QwertyFolder/Assets/BoxGuyTalk.png" id="2_0tgux"]
+[ext_resource type="FontFile" uid="uid://dercltprvxs0y" path="res://QwertyFolder/Assets/IHATCS__.TTF" id="3_0tgux"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cpjq0"]
 atlas = ExtResource("1_3rt55")
@@ -76,6 +77,49 @@ animations = [{
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=594880175]
 sprite_frames = SubResource("SpriteFrames_l6p6l")
-animation = &"Idle"
+animation = &"Talk"
 autoplay = "Idle"
-frame_progress = 0.35831705
+frame_progress = 0.30231157
+
+[node name="Dialogue" type="Label" parent="." unique_id=1351663263]
+visible = false
+z_index = -5
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -161.0
+offset_top = -117.0
+offset_right = 164.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("3_0tgux")
+theme_override_font_sizes/font_size = 20
+text = "wat u looking at yew dimwit"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Indicator" type="Label" parent="." unique_id=1019129272]
+z_index = -5
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -158.0
+offset_top = -106.0
+offset_right = 157.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("3_0tgux")
+theme_override_font_sizes/font_size = 12
+text = "[ W ]"
+horizontal_alignment = 1
+vertical_alignment = 1

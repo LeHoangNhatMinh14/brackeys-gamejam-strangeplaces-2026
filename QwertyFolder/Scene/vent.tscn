@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://cbqc50rpaxet5"]
+
+[ext_resource type="Texture2D" uid="uid://6fvxsmeitfln" path="res://QwertyFolder/Assets/theVentIdle.png" id="1_jesk4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qdx2c"]
+atlas = ExtResource("1_jesk4")
+region = Rect2(100, 100, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ufiua"]
+atlas = ExtResource("1_jesk4")
+region = Rect2(0, 100, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_niuis"]
+atlas = ExtResource("1_jesk4")
+region = Rect2(100, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ba13k"]
+atlas = ExtResource("1_jesk4")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4mbmf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qdx2c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ufiua")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_niuis")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ba13k")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 10.0
+}]
+
+[node name="Vent" type="Node2D" unique_id=1823101440]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=333904532]
+sprite_frames = SubResource("SpriteFrames_4mbmf")
+animation = &"Idle"
+autoplay = "Idle"
+frame_progress = 0.59889853
