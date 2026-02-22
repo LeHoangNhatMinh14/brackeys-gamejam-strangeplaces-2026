@@ -22,8 +22,7 @@ func _physics_process(delta: float) -> void:
 
 	# press-to-interact (W/Up mapped to "interact")
 	if Input.is_action_just_pressed("interact"):
-		interaction_area.try_interact()
-		talk_timer = talk_flash_time
+		$InteractionArea.try_interact()
 
 	var direction := Input.get_axis("ui_left", "ui_right")
 

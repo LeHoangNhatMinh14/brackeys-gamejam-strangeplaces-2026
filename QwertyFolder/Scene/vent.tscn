@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cbqc50rpaxet5"]
 
 [ext_resource type="Texture2D" uid="uid://6fvxsmeitfln" path="res://QwertyFolder/Assets/theVentIdle.png" id="1_jesk4"]
+[ext_resource type="Script" uid="uid://cgwaavyangigm" path="res://QwertyFolder/Scene/VentTrigger.gd" id="3_ufiua"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qdx2c"]
 atlas = ExtResource("1_jesk4")
@@ -38,6 +39,9 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_jesk4"]
+radius = 60.033325
+
 [node name="Vent" type="Node2D" unique_id=1823101440]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=333904532]
@@ -45,3 +49,9 @@ sprite_frames = SubResource("SpriteFrames_4mbmf")
 animation = &"Idle"
 autoplay = "Idle"
 frame_progress = 0.59889853
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1381440787]
+script = ExtResource("3_ufiua")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=105468065]
+shape = SubResource("CircleShape2D_jesk4")

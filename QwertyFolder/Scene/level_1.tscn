@@ -3,10 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://bsirgbu8h7cvg" path="res://QwertyFolder/Scene/player.tscn" id="1_8461l"]
 [ext_resource type="Texture2D" uid="uid://cto1senqgt4cu" path="res://QwertyFolder/Assets/TileSet_Testing.png" id="2_4vt6d"]
 [ext_resource type="PackedScene" uid="uid://dl5ns5r6paxgr" path="res://QwertyFolder/Scene/invisible_platform.tscn" id="3_sfoxf"]
-[ext_resource type="PackedScene" uid="uid://b78fmacuvbogj" path="res://QwertyFolder/Scene/InteractionTrigger.tscn" id="4_80mra"]
 [ext_resource type="PackedScene" uid="uid://bunt686vndi6j" path="res://QwertyFolder/Scene/BoxGuy.tscn" id="5_5oy0m"]
 [ext_resource type="PackedScene" uid="uid://cteux7ffkrn4e" path="res://QwertyFolder/Scene/Signpost.tscn" id="6_pfeyo"]
-[ext_resource type="PackedScene" uid="uid://dxevppmvr0uw5" path="res://QwertyFolder/Scene/Forklift.tscn" id="7_w4pa1"]
+[ext_resource type="PackedScene" uid="uid://yayro25epu7v" path="res://QwertyFolder/Scene/Forklift.tscn" id="7_w4pa1"]
 [ext_resource type="PackedScene" uid="uid://cqbq6pwcvm4u7" path="res://QwertyFolder/Scene/letter_e.tscn" id="8_yolh6"]
 [ext_resource type="PackedScene" uid="uid://cbqc50rpaxet5" path="res://QwertyFolder/Scene/vent.tscn" id="9_k5ikt"]
 
@@ -192,9 +191,6 @@ scale = Vector2(17.239994, 1)
 [node name="InvisiblePlatform30" parent="Platforms" unique_id=2019132738 instance=ExtResource("3_sfoxf")]
 position = Vector2(272, -894)
 scale = Vector2(17.239994, 1)
-
-[node name="InteractionTrigger" parent="." unique_id=194850221 instance=ExtResource("4_80mra")]
-position = Vector2(191, -107)
 
 [node name="BoxGuy" parent="." unique_id=1715286648 instance=ExtResource("5_5oy0m")]
 z_index = -5

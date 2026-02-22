@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bawpyuexc6r7e" path="res://QwertyFolder/Assets/SignpostIdle.png" id="1_p6mpu"]
 [ext_resource type="Texture2D" uid="uid://g7l25r5wcso6" path="res://QwertyFolder/Assets/SignpostTalk.png" id="2_b6ivc"]
 [ext_resource type="FontFile" uid="uid://dercltprvxs0y" path="res://QwertyFolder/Assets/IHATCS__.TTF" id="3_b6ivc"]
+[ext_resource type="PackedScene" uid="uid://b78fmacuvbogj" path="res://QwertyFolder/Scene/InteractionTrigger.tscn" id="4_agpkk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_agpkk"]
 atlas = ExtResource("1_p6mpu")
@@ -123,3 +124,5 @@ theme_override_font_sizes/font_size = 12
 text = "[ W ]"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="InteractionTrigger" parent="." unique_id=194850221 instance=ExtResource("4_agpkk")]

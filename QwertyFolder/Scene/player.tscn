@@ -151,8 +151,9 @@ animations = [{
 radius = 14.0
 height = 86.0
 
-[node name="Player" type="CharacterBody2D" unique_id=777745129]
+[node name="Player" type="CharacterBody2D" unique_id=777745129 groups=["player"]]
 script = ExtResource("1_8ejv7")
+talk_flash_time = 2.0
 
 [node name="Visuals" type="Node2D" parent="." unique_id=1060449133]
 
